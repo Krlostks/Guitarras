@@ -1,26 +1,18 @@
 <script setup>
+    import GuitarraCarrito from './GuitarraCarrito.vue';
     import { inject } from 'vue';
 
     const carritoState = inject('carritoState');
 
-    function disminuirGuitarra(guitarra) {
-        carritoState.disminuirGuitarra(guitarra);
-    }
-
-    function eliminarGuitarra(guitarra) {
-        carritoState.eliminarGuitarra(guitarra);
-    }
-
     function vaciarCarrito() {
         carritoState.vaciarCarrito();
     }
-    function agregarCarrito(guitarra){
-        carritoState.agregarCarrito(guitarra);
-    }
     function scrolling() {
-        carritoState.scrollingComprar()
+        document.querySelector('#title-collection').scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        }) 
     }
-    window.onload = function(){console.log('items: ' + carritoState.itemsCarrito.length)}
     
 </script>
 <template>
@@ -37,32 +29,10 @@
                             <th>Cantidad</th>
                             <th></th>
                         </tr>
-                    </thead>
+                    </thead> 
                     <tbody>
-                        <tr v-for=" guitarra in carritoState.itemsCarrito" :guitarra="guitarra">
-                            <td>    
-                                <img class="img-fluid" :src="'/img/' + guitarra.imagen+ '.jpg'" :alt="'imagen'+ guitarra.nombre">
-                            </td>
-                            <td>{{ guitarra.nombre }}</td>
-                            <td class="fw-bold">
-                                $ {{ guitarra.precio }}
-                            </td>
-                            <td class="flex align-items-start gap-4">
-                                <button type="button" class="btn btn-dark" @click="disminuirGuitarra(guitarra)">
-                                    -
-                                </button>
-                                {{ guitarra.cantidad }}
-                                <button type="button" class="btn btn-dark" @click="agregarCarrito(guitarra)">
-                                    +
-                                </button>
-                            </td>
-                            <td>
-                                <button class="btn btn-danger" type="button" @click="eliminarGuitarra(guitarra)">
-                                    X
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
+                        <GuitarraCarrito v-for=" guitarra in carritoState.itemsCarrito" :guitarra="guitarra"/>                          
+                    </tbody>                 
                 </table>
                 <p class="text-center" v-else >El carrito esta vacio :c</p>
                 <p class="text-end">Total pagar: <span class="fw-bold">${{ carritoState.totalCarrito }}</span></p>

@@ -9,10 +9,8 @@ defineProps({
         required : true
     }
 })
-
-
 function agregarCarrito(guitarraActual){
-    carritoState.agregarCarrito(guitarraActual)    
+    carritoState.agregarCarrito(guitarraActual);
 }
 </script>
 <template>
@@ -26,10 +24,16 @@ function agregarCarrito(guitarraActual){
                     <p>{{ guitarra.descripcion}}</p>
                     <p class="fw-black text-primary fs-3">${{ guitarra.precio }}</p>
                     <button 
+                        v-if="(carritoState.existeEnCarrito(guitarra) === true)"
+                        type="button"
+                        class="btn btn-dark w-100"
+                    >Agregado al Carrito <i :value="guitarra.id" id="aggIconId" class="bx bxs-check-circle"/></button>
+                    <button 
+                    v-else
                         @click="agregarCarrito(guitarra)"
                         type="button"
                         class="btn btn-dark w-100"
-                    >Agregar al Carrito <i :value="guitarra.id" id="aggIconId" class="bx bxs-check-circle"/></button>
+                    >Agregar al Carrito</button>
                 </div>
             </div>
 </template>
